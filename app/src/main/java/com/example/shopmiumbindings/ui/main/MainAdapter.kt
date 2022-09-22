@@ -1,19 +1,17 @@
 package com.example.shopmiumbindings.ui.main
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.shopmiumbindings.R
+import com.example.shopmiumbindings.databinding.ListItemBinding
 
 class MainAdapter : ListAdapter<ItemData, MainAdapter.ItemViewHolder>(ITEM_DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
-        return ItemViewHolder(view)
+        val binding = ListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ItemViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
@@ -32,12 +30,10 @@ class MainAdapter : ListAdapter<ItemData, MainAdapter.ItemViewHolder>(ITEM_DIFF_
     }
 
     inner class ItemViewHolder(
-        private val view: View
-    ) : RecyclerView.ViewHolder(view) {
+        private val binding: ListItemBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(itemData: ItemData) {
-            view.findViewById<TextView>(R.id.itemTextView).apply {
-                text = itemData.data
-            }
+            binding.itemTextView.text = itemData.data
         }
     }
 }
