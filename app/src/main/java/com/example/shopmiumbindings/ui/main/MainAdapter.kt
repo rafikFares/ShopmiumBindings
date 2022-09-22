@@ -33,7 +33,8 @@ class MainAdapter : ListAdapter<ItemData, MainAdapter.ItemViewHolder>(ITEM_DIFF_
         private val binding: ListItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(itemData: ItemData) {
-            binding.itemTextView.text = itemData.data
+            // binding.itemTextView.text = itemData.data // can be used too
+            binding.itemData = itemData
         }
     }
 }

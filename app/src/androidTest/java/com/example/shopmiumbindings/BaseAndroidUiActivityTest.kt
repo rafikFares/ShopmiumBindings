@@ -9,15 +9,22 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.shopmiumbindings.events.BaseEvents
+import com.example.shopmiumbindings.helpers.ActivityDataBindingIdlingResource
+import com.example.shopmiumbindings.helpers.ActivityDataBindingIdlingResourceRule
 import com.example.shopmiumbindings.matcher.BaseMatchers
-import kotlin.reflect.KClass
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.runner.RunWith
+import kotlin.reflect.KClass
 
 @RunWith(AndroidJUnit4::class)
 abstract class BaseAndroidUiActivityTest<T : FragmentActivity>(activity: KClass<T>) {
+
+    private val idlingResource = ActivityDataBindingIdlingResource<T>()
+
+    @get:Rule
+    val activityDataBindingIdlingResourceRule = ActivityDataBindingIdlingResourceRule(idlingResource)
 
     @get:Rule
     var activityScenarioRule = ActivityScenarioRule(activity.java)
@@ -30,6 +37,7 @@ abstract class BaseAndroidUiActivityTest<T : FragmentActivity>(activity: KClass<
         checkNotNull(scenario) {
             Log.e("BaseAndroidUiActivityTest", "scenario is null")
         }
+        idlingResource.monitorActivity(scenario!!)
         // initialize Espresso Intents capturing
         Intents.init()
     }
@@ -45,4 +53,7 @@ abstract class BaseAndroidUiActivityTest<T : FragmentActivity>(activity: KClass<
 
     protected val matchers: BaseMatchers = BaseMatchers()
     protected val events: BaseEvents = BaseEvents()
+    protected fun getActivity(): T? {
+        return idlingResource.activity
+    }
 }
