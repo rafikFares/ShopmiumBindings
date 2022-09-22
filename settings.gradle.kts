@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "ShopmiumBindings"
-include ':app'
+include(":app")

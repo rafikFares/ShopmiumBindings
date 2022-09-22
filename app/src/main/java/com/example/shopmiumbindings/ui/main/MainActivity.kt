@@ -3,6 +3,7 @@ package com.example.shopmiumbindings.ui.main
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopmiumbindings.R
@@ -26,8 +27,13 @@ class MainActivity : AppCompatActivity() {
         listView = findViewById<RecyclerView>(R.id.listView)
         buttonView = findViewById<MaterialButton>(R.id.buttonView)
 
+        initImage()
         initList()
         initButton()
+    }
+
+    private fun initImage() {
+        headerImageView.isVisible = viewModel.shouldShowImageHeader()
     }
 
     private fun initList() {
@@ -37,6 +43,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initButton() {
         buttonView.setOnClickListener {
+            buttonView.text = "Clicked!!"
             val items = viewModel.createFakeData()
             (listView.adapter as MainAdapter).submitList(items)
         }
